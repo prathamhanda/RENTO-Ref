@@ -8,6 +8,8 @@ import ListingCard from '../components/listings/ListingCard';
 import Carousel from '../components/Carousel';
 import FeatureCard from '../components/FeatureCard';
 import GallerySection from '../components/GallerySection';
+import partnersImage from '../assets/partners.png';
+import cashbackImage from '../assets/cashback.png';
 
 // Sample data for colleges
 const colleges = [
@@ -49,12 +51,28 @@ const Home = () => {
   const { getLocations } = useLocationContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredColleges, setFilteredColleges] = useState([]);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     getListings();
     getLocations();
+
+    // Scroll to top button visibility
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [getListings, getLocations]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -327,23 +345,97 @@ const Home = () => {
       <GallerySection title="South Campus" items={galleryItemsSouth} />
       <GallerySection title="Off Campus" items={galleryItemsOff} />
 
-      <h1 className='text-black px-5 md:px-20 py-2 text-3xl md:text-4xl font-montserrat font-bold tracking-wide'>Book your favourite room in <span className='text-[#FE6F61]'>3 simple steps</span></h1>
-      <h1 className='text-[#979797] px-5 md:px-20 text-[16px] tracking-wide font-semibold font-montserrat'>What do our 10k+ Students have to say about their experience with ROR</h1>
+      {/* Promotional Sections */}
+      <div className="grid grid-cols-1 font-montserrat md:grid-cols-2 gap-8 px-4 md:px-8 lg:px-16 my-16">
+        {/* Partner with Us Section */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 flex items-center justify-between overflow-hidden relative">
+          <div className="max-w-[50%]">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Partner with Us!</h2>
+            <p className="text-gray-600 text-lg">
+              Recommend PGs and Flats and get upto 500/- off on your next month's rent!
+            </p>
+          </div>
+          <div className="w-[50%] h-70 rounded-xl relative overflow-hidden">
+            {/* Partner image */}
+            <img 
+              src={partnersImage}
+              alt="Partner with us"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        </div>
 
-      {/* Steps Section */}
-      <div className="py-6">
-        <div className="flex flex-col md:flex-row gap-8 px-5 md:px-20 mb-4 justify-between items-center">
-          <div className="flex flex-col items-center text-center p-6 w-full md:w-1/3 h-[142px] rounded-xl shadow-md border border-gray-300">
-            <h2 className="text-xl font-bold text-black">Discover & Choose</h2>
-            <p className="text-gray-600 text-sm mt-2">Choose and pick from a plethora of verified student Flats & PGs</p>
+        {/* Earn Cashback Section */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 flex items-center justify-between overflow-hidden relative">
+          <div className="max-w-[50%]">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Earn Cashback!</h2>
+            <p className="text-gray-600 text-lg">
+              Get 500/- cashback on your first room booking after filling in all necessary details
+            </p>
           </div>
-          <div className="flex flex-col items-center text-center p-6 w-full md:w-1/3 h-[142px] rounded-xl shadow-md border border-gray-300">
-            <h2 className="text-xl font-bold text-black">Fill in your details</h2>
-            <p className="text-gray-600 text-sm mt-2">Fill in all your necessary personal details required for the booking.</p>
+          <div className="w-[45%] h-64 bg-[#FFE4E1] rounded-xl relative overflow-hidden">
+            {/* Cashback image */}
+            <img 
+              src={cashbackImage}
+              alt="Earn cashback"
+              className="w-full h-full object-contain"
+            />
           </div>
-          <div className="flex flex-col items-center text-center p-6 w-full md:w-1/3 h-[142px] rounded-xl shadow-md border border-gray-300">
-            <h2 className="text-xl font-bold text-black">Accommodation Secured!</h2>
-            <p className="text-gray-600 text-sm mt-2">Take it easy, pack up, and embark on a new chapter of life!</p>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 md:px-8 lg:px-16 py-12">
+        <h1 className='text-[#2D2D2D] text-4xl md:text-5xl font-bold mb-3'>Book your favourite room in <span className='text-[#FF6B6B]'>3 simple steps</span></h1>
+        <p className='text-[#979797] text-lg mb-12'>What do our 10k+ Students have to say about their experience with ROR</p>
+
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 relative">
+          {/* Step 1 */}
+          <div className="w-full md:w-1/3 bg-white rounded-2xl p-8 shadow-md border border-gray-100">
+            <div className="mb-6">
+              <svg className="w-12 h-12 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2"/>
+                <path d="M11 7V11L14 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-[#2D2D2D] mb-4">Discover & Choose</h2>
+            <p className="text-gray-600">Choose and pick from a plethora of verified student Flats & PGs</p>
+          </div>
+
+          {/* Arrow 1 */}
+          <div className="hidden md:block w-24">
+            <svg className="w-full text-gray-300" height="24" viewBox="0 0 100 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 12H95M95 12L85 2M95 12L85 22" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+          </div>
+
+          {/* Step 2 */}
+          <div className="w-full md:w-1/3 bg-white rounded-2xl p-8 shadow-md border border-gray-100">
+            <div className="mb-6">
+              <svg className="w-12 h-12 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="currentColor" strokeWidth="2"/>
+                <path d="M7 7H17M7 12H17M7 17H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-[#2D2D2D] mb-4">Fill in your details</h2>
+            <p className="text-gray-600">Fill in all your necessary personal details required for the booking.</p>
+          </div>
+
+          {/* Arrow 2 */}
+          <div className="hidden md:block w-24">
+            <svg className="w-full text-gray-300" height="24" viewBox="0 0 100 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 12H95M95 12L85 2M95 12L85 22" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+          </div>
+
+          {/* Step 3 */}
+          <div className="w-full md:w-1/3 bg-white rounded-2xl p-8 shadow-md border border-gray-100">
+            <div className="mb-6">
+              <svg className="w-12 h-12 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 12L5 10M5 10L12 3L19 10M19 10L21 12M19 10V20C19 20.5523 18.5523 21 18 21H6C5.44772 21 5 20.5523 5 20V10" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-[#2D2D2D] mb-4">Accommodation Secured!</h2>
+            <p className="text-gray-600">Take it easy, pack up, and embark on a new chapter of life!</p>
           </div>
         </div>
       </div>
@@ -407,6 +499,30 @@ const Home = () => {
           </div>
         </div>
       )}
+
+      {/* Scroll to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 w-12 h-12 rounded-full border-2 border-[#FF6B6B] bg-white shadow-lg 
+          flex items-center justify-center transition-all duration-300 hover:bg-[#FF6B6B] hover:text-white
+          ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}
+          active:scale-95 group`}
+        aria-label="Scroll to top"
+      >
+        <svg
+          className="w-6 h-6 stroke-[#FF6B6B] group-hover:stroke-white transition-colors duration-300"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 19V5M12 5L5 12M12 5L19 12"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
     </MainLayout>
   );
 };

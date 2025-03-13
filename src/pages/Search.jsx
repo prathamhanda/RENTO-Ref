@@ -117,12 +117,12 @@ const Search = () => {
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Search Results</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Search Results</h1>
           <button
             onClick={() => setShowMap(!showMap)}
-            className="bg-primary-100 text-primary-700 px-4 py-2 rounded-lg hover:bg-primary-200 transition"
+            className="bg-white text-gray-900 px-6 py-2 rounded-lg hover:bg-gray-100 transition shadow-sm border border-gray-200"
           >
             {showMap ? 'Hide Map' : 'Show Map'}
           </button>
@@ -140,7 +140,7 @@ const Search = () => {
             <div className="md:hidden mb-4">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FE6F61]"
+                className="w-full flex items-center justify-center px-4 py-3 border border-gray-200 rounded-lg shadow-sm text-sm font-medium text-gray-900 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -151,18 +151,18 @@ const Search = () => {
             
             {/* Filters Section */}
             <div className={`md:w-64 flex-shrink-0 ${showFilters ? 'block' : 'hidden md:block'}`}>
-              <div className="bg-white p-4 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Filters</h3>
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h3 className="text-xl font-semibold text-gray-900 mb-6">Filters</h3>
                 
                 {/* Type Filter */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     PG Type
                   </label>
                   <select
                     value={filters.type}
                     onChange={(e) => handleFilterChange('type', e.target.value)}
-                    className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FE6F61] focus:border-[#FE6F61] sm:text-sm"
+                    className="w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   >
                     <option value="">All Types</option>
                     {types.map((type) => (
@@ -172,17 +172,17 @@ const Search = () => {
                 </div>
                 
                 {/* Price Range Filter */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Price Range
                   </label>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-3">
                     <input
                       type="number"
                       placeholder="Min"
                       value={filters.minPrice}
                       onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                      className="w-1/2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FE6F61] focus:border-[#FE6F61] sm:text-sm"
+                      className="w-1/2 border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                     <span className="text-gray-500">-</span>
                     <input
@@ -190,17 +190,17 @@ const Search = () => {
                       placeholder="Max"
                       value={filters.maxPrice}
                       onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                      className="w-1/2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FE6F61] focus:border-[#FE6F61] sm:text-sm"
+                      className="w-1/2 border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
                 </div>
                 
                 {/* Amenities Filter */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Amenities
                   </label>
-                  <div className="space-y-2 max-h-40 overflow-y-auto">
+                  <div className="space-y-3 max-h-48 overflow-y-auto pr-2">
                     {availableAmenities.map((amenity) => (
                       <div key={amenity} className="flex items-center">
                         <input
@@ -208,9 +208,9 @@ const Search = () => {
                           type="checkbox"
                           checked={filters.amenities.includes(amenity)}
                           onChange={() => handleAmenityToggle(amenity)}
-                          className="h-4 w-4 text-[#FE6F61] focus:ring-[#FE6F61] border-gray-300 rounded"
+                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                         />
-                        <label htmlFor={`amenity-${amenity}`} className="ml-2 block text-sm text-gray-700">
+                        <label htmlFor={`amenity-${amenity}`} className="ml-3 block text-sm text-gray-900">
                           {amenity}
                         </label>
                       </div>
@@ -219,14 +219,14 @@ const Search = () => {
                 </div>
                 
                 {/* Sort By Filter */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Sort By
                   </label>
                   <select
                     value={filters.sortBy}
                     onChange={(e) => handleFilterChange('sortBy', e.target.value)}
-                    className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FE6F61] focus:border-[#FE6F61] sm:text-sm"
+                    className="w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   >
                     <option value="newest">Newest First</option>
                     <option value="price_low">Price: Low to High</option>
@@ -236,16 +236,16 @@ const Search = () => {
                 </div>
                 
                 {/* Filter Action Buttons */}
-                <div className="flex space-x-2">
+                <div className="flex space-x-3">
                   <button
                     onClick={applyFilters}
-                    className="flex-1 bg-[#FE6F61] hover:bg-[#e55a4d] text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FE6F61]"
+                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition"
                   >
                     Apply
                   </button>
                   <button
                     onClick={resetFilters}
-                    className="flex-1 border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FE6F61]"
+                    className="flex-1 border border-gray-300 text-gray-900 font-medium py-2.5 px-4 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition"
                   >
                     Reset
                   </button>
@@ -254,116 +254,46 @@ const Search = () => {
             </div>
           </div>
 
-          {/* Results column */}
-          <div className="w-full lg:w-2/3">
-            {/* Map view */}
-            {showMap && (
-              <div className="mb-6">
-                <Map 
-                  markers={markers}
-                  height="500px"
-                  className="rounded-lg border border-gray-300 mb-6"
-                  zoom={12}
-                />
-              </div>
-            )}
-
-            {/* List view */}
-            <div className="bg-white p-4 rounded-lg shadow mb-4 flex justify-between items-center">
-              <div>
-                <h2 className="text-lg font-medium text-gray-900">
-                  {loading ? 'Searching...' : `${totalListings} results found`}
-                </h2>
-                <p className="text-sm text-gray-500">
-                  {initialLocation ? `in ${initialLocation}` : 'across all locations'}
-                  {initialQuery ? ` for "${initialQuery}"` : ''}
-                </p>
-              </div>
-            </div>
-            
-            {/* Listings */}
+          {/* Results Section */}
+          <div className="flex-1">
             {loading ? (
               <div className="flex justify-center items-center h-64">
-                <Spinner size="large" color="indigo" />
+                <Spinner size="large" />
               </div>
             ) : error ? (
-              <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded-md">
-                <div className="flex">
-                  <div className="flex-shrink-0">
-                    <svg className="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-sm text-red-700">
-                      Error loading listings. Please try again later.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : listings.length === 0 ? (
-              <div className="bg-white p-8 rounded-lg shadow text-center">
-                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h3 className="mt-2 text-lg font-medium text-gray-900">No results found</h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Try adjusting your search or filter to find what you're looking for.
-                </p>
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                {error}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {listings.map((listing) => (
-                  <ListingCard key={listing._id} listing={listing} />
-                ))}
-              </div>
-            )}
-            
-            {/* Pagination */}
-            {totalListings > 0 && (
-              <div className="mt-6 flex justify-center">
-                <nav className="flex items-center">
-                  <button
-                    onClick={() => {
-                      if (page > 1) {
-                        setPage(page - 1);
-                        performSearch();
-                        window.scrollTo(0, 0);
-                      }
-                    }}
-                    disabled={page === 1}
-                    className={`mr-2 px-3 py-1 rounded-md ${
-                      page === 1 
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                        : 'bg-white text-gray-700 hover:bg-gray-50'
-                    } border border-gray-300`}
-                  >
-                    Previous
-                  </button>
-                  
-                  <span className="px-4 py-1 text-sm text-gray-700">
-                    Page {page} of {Math.ceil(totalListings / 9)}
-                  </span>
-                  
-                  <button
-                    onClick={() => {
-                      if (page < Math.ceil(totalListings / 9)) {
-                        setPage(page + 1);
-                        performSearch();
-                        window.scrollTo(0, 0);
-                      }
-                    }}
-                    disabled={page >= Math.ceil(totalListings / 9)}
-                    className={`ml-2 px-3 py-1 rounded-md ${
-                      page >= Math.ceil(totalListings / 9)
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-white text-gray-700 hover:bg-gray-50'
-                    } border border-gray-300`}
-                  >
-                    Next
-                  </button>
-                </nav>
-              </div>
+              <>
+                {/* Map View */}
+                {showMap && (
+                  <div className="mb-6 h-[400px] rounded-lg overflow-hidden shadow-sm border border-gray-200">
+                    <Map markers={markers} />
+                  </div>
+                )}
+
+                {/* Results Count */}
+                <div className="mb-6">
+                  <p className="text-gray-900">
+                    Found <span className="font-semibold">{totalListings}</span> listings
+                  </p>
+                </div>
+
+                {/* Listings Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {listings.map((listing) => (
+                    <ListingCard key={listing._id} listing={listing} />
+                  ))}
+                </div>
+
+                {/* No Results */}
+                {listings.length === 0 && (
+                  <div className="text-center py-12">
+                    <p className="text-gray-900 text-lg">No listings found matching your criteria.</p>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

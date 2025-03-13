@@ -29,7 +29,7 @@ const Navbar = () => {
             <Link to="/contact" className="text-gray-700 hover:text-[#FE6F61] px-3 py-2 rounded-md font-medium">
               Contact
             </Link>
-            <Link to="/createlisting" className="text-gray-700 hover:text-[#FE6F61] px-3 py-2 rounded-md font-medium">
+            <Link to="/dashboard/listings/create" className="text-gray-700 hover:text-[#FE6F61] px-3 py-2 rounded-md font-medium">
               Create Listing
             </Link>
           </div>
@@ -88,7 +88,7 @@ const Navbar = () => {
             Contact
           </Link>
           <Link
-            to="/createlisting"
+            to="/dashboard/listings/create"
             className="text-gray-700 hover:text-[#FE6F61] block px-3 py-2 rounded-md font-medium"
             onClick={() => setIsOpen(false)}
           >

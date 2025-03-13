@@ -267,119 +267,179 @@ const CreateListing = () => {
   }
   
   return (
-    <DashboardLayout>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">Create New Listing</h1>
-        
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white shadow-sm rounded-lg p-8 border border-gray-200">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900">
+              {isEditMode ? 'Edit Listing' : 'Create New Listing'}
+            </h1>
+            <p className="mt-2 text-gray-600">
+              Fill in the details below to {isEditMode ? 'update your' : 'create a new'} listing.
+            </p>
           </div>
-        )}
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="bg-white shadow rounded-lg overflow-hidden">
+
+          {loadError && (
+            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              {loadError}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Basic Information */}
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Basic Information</h2>
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">Basic Information</h2>
+              
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title *</label>
+                  <label htmlFor="title" className="block text-sm font-medium text-gray-900">
+                    Title*
+                  </label>
                   <input
                     type="text"
                     id="title"
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
-                      formErrors.title ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-[#FE6F61] focus:border-[#FE6F61]'
-                    }`}
-                    placeholder="e.g., Cozy Single Room near Tech Park"
+                    className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder="Enter listing title"
                   />
-                  {formErrors.title && <p className="mt-2 text-sm text-red-600">{formErrors.title}</p>}
+                  {formErrors.title && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.title}</p>
+                  )}
                 </div>
-                
+
                 <div>
-                  <label htmlFor="type" className="block text-sm font-medium text-gray-700">Property Type *</label>
+                  <label htmlFor="type" className="block text-sm font-medium text-gray-900">
+                    Type*
+                  </label>
                   <select
                     id="type"
                     name="type"
                     value={formData.type}
                     onChange={handleChange}
-                    className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-[#FE6F61] focus:border-[#FE6F61] sm:text-sm"
+                    className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   >
                     <option value="single">Single Room</option>
                     <option value="double">Double Sharing</option>
                     <option value="triple">Triple Sharing</option>
-                    <option value="apartment">Full Apartment</option>
-                    <option value="house">Full House</option>
+                    <option value="four">Four Sharing</option>
                   </select>
                 </div>
-                
-                <div className="sm:col-span-2">
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description *</label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    rows="4"
-                    value={formData.description}
-                    onChange={handleChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
-                      formErrors.description ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-[#FE6F61] focus:border-[#FE6F61]'
-                    }`}
-                    placeholder="Describe your property, including features, nearby facilities, etc."
-                  ></textarea>
-                  {formErrors.description && <p className="mt-2 text-sm text-red-600">{formErrors.description}</p>}
-                  <p className="mt-2 text-sm text-gray-500">
-                    {formData.description.length}/2000 characters
-                  </p>
-                </div>
+              </div>
+
+              <div>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-900">
+                  Description*
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows={4}
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Describe your listing"
+                />
+                {formErrors.description && (
+                  <p className="mt-1 text-sm text-red-600">{formErrors.description}</p>
+                )}
               </div>
             </div>
-            
-            {/* Location Details */}
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Location & Availability</h2>
+
+            {/* Location Information */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">Location</h2>
+              
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location *</label>
+                  <label htmlFor="location" className="block text-sm font-medium text-gray-900">
+                    Area*
+                  </label>
                   <select
                     id="location"
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    className={`mt-1 block w-full py-2 px-3 border ${
-                      formErrors.location ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-[#FE6F61] focus:border-[#FE6F61]'
-                    } bg-white rounded-md shadow-sm focus:outline-none sm:text-sm`}
+                    className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   >
-                    <option value="">Select a location</option>
-                    {locations.map(loc => (
-                      <option key={loc._id} value={loc._id}>
-                        {loc.name}, {loc.city}
+                    <option value="">Select an area</option>
+                    {locations.map((location) => (
+                      <option key={location._id} value={location._id}>
+                        {location.name}
                       </option>
                     ))}
                   </select>
-                  {formErrors.location && <p className="mt-2 text-sm text-red-600">{formErrors.location}</p>}
+                  {formErrors.location && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.location}</p>
+                  )}
                 </div>
-                
+
                 <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-gray-700">Full Address *</label>
+                  <label htmlFor="address" className="block text-sm font-medium text-gray-900">
+                    Address*
+                  </label>
                   <input
                     type="text"
                     id="address"
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
-                      formErrors.address ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-[#FE6F61] focus:border-[#FE6F61]'
-                    }`}
-                    placeholder="Enter the complete address"
+                    className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder="Enter complete address"
                   />
-                  {formErrors.address && <p className="mt-2 text-sm text-red-600">{formErrors.address}</p>}
+                  {formErrors.address && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.address}</p>
+                  )}
                 </div>
-                
+              </div>
+            </div>
+
+            {/* Pricing and Availability */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">Pricing & Availability</h2>
+              
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                 <div>
-                  <label htmlFor="availableFrom" className="block text-sm font-medium text-gray-700">Available From *</label>
+                  <label htmlFor="price" className="block text-sm font-medium text-gray-900">
+                    Monthly Rent (₹)*
+                  </label>
+                  <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder="Enter monthly rent"
+                  />
+                  {formErrors.price && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.price}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="securityDeposit" className="block text-sm font-medium text-gray-900">
+                    Security Deposit (₹)*
+                  </label>
+                  <input
+                    type="number"
+                    id="securityDeposit"
+                    name="securityDeposit"
+                    value={formData.securityDeposit}
+                    onChange={handleChange}
+                    className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder="Enter security deposit"
+                  />
+                  {formErrors.securityDeposit && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.securityDeposit}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="availableFrom" className="block text-sm font-medium text-gray-900">
+                    Available From*
+                  </label>
                   <input
                     type="date"
                     id="availableFrom"
@@ -387,238 +447,172 @@ const CreateListing = () => {
                     value={formData.availableFrom}
                     onChange={handleChange}
                     min={new Date().toISOString().split('T')[0]}
-                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
-                      formErrors.availableFrom ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-[#FE6F61] focus:border-[#FE6F61]'
-                    }`}
+                    className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2.5 px-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
-                  {formErrors.availableFrom && <p className="mt-2 text-sm text-red-600">{formErrors.availableFrom}</p>}
-                </div>
-                
-                <div className="flex items-center h-full pt-6">
-                  <input
-                    type="checkbox"
-                    id="isActive"
-                    name="isActive"
-                    checked={formData.isActive}
-                    onChange={handleChange}
-                    className="h-4 w-4 text-[#FE6F61] focus:ring-[#FE6F61] border-gray-300 rounded"
-                  />
-                  <label htmlFor="isActive" className="ml-2 block text-sm text-gray-900">
-                    Make this listing active (immediately visible to users)
-                  </label>
+                  {formErrors.availableFrom && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.availableFrom}</p>
+                  )}
                 </div>
               </div>
             </div>
-            
-            {/* Price & Occupancy */}
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Price & Occupancy</h2>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="price" className="block text-sm font-medium text-gray-700">Monthly Rent (₹) *</label>
-                  <div className="mt-1 relative rounded-md shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm">₹</span>
-                    </div>
+
+            {/* Amenities */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">Amenities</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {amenitiesList.map((amenity) => (
+                  <div key={amenity} className="flex items-center">
                     <input
-                      type="text"
-                      id="price"
-                      name="price"
-                      value={formData.price}
+                      type="checkbox"
+                      id={`amenity-${amenity}`}
+                      name="amenities"
+                      value={amenity}
+                      checked={formData.amenities.includes(amenity)}
                       onChange={handleChange}
-                      className={`pl-7 block w-full rounded-md shadow-sm sm:text-sm ${
-                        formErrors.price ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-[#FE6F61] focus:border-[#FE6F61]'
-                      }`}
-                      placeholder="0"
+                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                     />
+                    <label htmlFor={`amenity-${amenity}`} className="ml-3 text-sm text-gray-900">
+                      {amenity}
+                    </label>
                   </div>
-                  {formErrors.price && <p className="mt-2 text-sm text-red-600">{formErrors.price}</p>}
-                </div>
-                
-                <div>
-                  <label htmlFor="securityDeposit" className="block text-sm font-medium text-gray-700">Security Deposit (₹) *</label>
-                  <div className="mt-1 relative rounded-md shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm">₹</span>
-                    </div>
+                ))}
+              </div>
+            </div>
+
+            {/* House Rules */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">House Rules</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {rulesList.map((rule) => (
+                  <div key={rule} className="flex items-center">
                     <input
-                      type="text"
-                      id="securityDeposit"
-                      name="securityDeposit"
-                      value={formData.securityDeposit}
+                      type="checkbox"
+                      id={`rule-${rule}`}
+                      name="rules"
+                      value={rule}
+                      checked={formData.rules.includes(rule)}
                       onChange={handleChange}
-                      className={`pl-7 block w-full rounded-md shadow-sm sm:text-sm ${
-                        formErrors.securityDeposit ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-[#FE6F61] focus:border-[#FE6F61]'
-                      }`}
-                      placeholder="0"
+                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                     />
+                    <label htmlFor={`rule-${rule}`} className="ml-3 text-sm text-gray-900">
+                      {rule}
+                    </label>
                   </div>
-                  {formErrors.securityDeposit && <p className="mt-2 text-sm text-red-600">{formErrors.securityDeposit}</p>}
-                </div>
-                
-                <div>
-                  <label htmlFor="occupancy" className="block text-sm font-medium text-gray-700">Occupancy Type</label>
-                  <select
-                    id="occupancy"
-                    name="occupancy"
-                    value={formData.occupancy}
-                    onChange={handleChange}
-                    className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-[#FE6F61] focus:border-[#FE6F61] sm:text-sm"
-                  >
-                    <option value="single">Single Occupancy</option>
-                    <option value="double">Double Sharing</option>
-                    <option value="triple">Triple Sharing</option>
-                    <option value="any">Any</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label htmlFor="maxOccupancy" className="block text-sm font-medium text-gray-700">Maximum Occupants</label>
-                  <input
-                    type="text"
-                    id="maxOccupancy"
-                    name="maxOccupancy"
-                    value={formData.maxOccupancy}
-                    onChange={handleChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
-                      formErrors.maxOccupancy ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-[#FE6F61] focus:border-[#FE6F61]'
-                    }`}
-                  />
-                  {formErrors.maxOccupancy && <p className="mt-2 text-sm text-red-600">{formErrors.maxOccupancy}</p>}
-                </div>
+                ))}
               </div>
             </div>
-            
-            {/* Amenities & Rules */}
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Amenities & Rules</h2>
-              
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Amenities</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {amenitiesList.map(amenity => (
-                    <div key={amenity} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id={`amenity-${amenity}`}
-                        name="amenities"
-                        value={amenity}
-                        checked={formData.amenities.includes(amenity)}
-                        onChange={handleChange}
-                        className="h-4 w-4 text-[#FE6F61] focus:ring-[#FE6F61] border-gray-300 rounded"
-                      />
-                      <label htmlFor={`amenity-${amenity}`} className="ml-2 block text-sm text-gray-900">
-                        {amenity}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Rules</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {rulesList.map(rule => (
-                    <div key={rule} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id={`rule-${rule}`}
-                        name="rules"
-                        value={rule}
-                        checked={formData.rules.includes(rule)}
-                        onChange={handleChange}
-                        className="h-4 w-4 text-[#FE6F61] focus:ring-[#FE6F61] border-gray-300 rounded"
-                      />
-                      <label htmlFor={`rule-${rule}`} className="ml-2 block text-sm text-gray-900">
-                        {rule}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
+
             {/* Images */}
-            <div className="p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Property Images</h2>
-              
-              <div className="mb-4">
-                <label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-2">
-                  Upload Images *
-                </label>
-                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
-                    <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <div className="flex text-sm text-gray-600">
-                      <label htmlFor="images" className="relative cursor-pointer bg-white rounded-md font-medium text-[#FE6F61] hover:text-[#e55a4d] focus-within:outline-none">
-                        <span>Upload files</span>
-                        <input 
-                          id="images" 
-                          name="images" 
-                          type="file" 
-                          multiple 
-                          accept="image/*"
-                          className="sr-only" 
-                          onChange={handleImageChange}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">Images</h2>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-6">
+                  <label
+                    htmlFor="images"
+                    className="flex items-center justify-center px-6 py-4 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:border-indigo-500 transition-colors"
+                  >
+                    <div className="space-y-1 text-center">
+                      <svg
+                        className="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
+                      </svg>
+                      <div className="text-sm text-gray-600">
+                        <span className="font-medium text-indigo-600 hover:text-indigo-500">
+                          Upload images
+                        </span>
+                        {' or drag and drop'}
+                      </div>
+                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                     </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</p>
-                  </div>
+                    <input
+                      id="images"
+                      name="images"
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="sr-only"
+                    />
+                  </label>
+                  {uploadProgress > 0 && (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-40 bg-gray-200 rounded-full h-2.5">
+                        <div
+                          className="bg-indigo-600 h-2.5 rounded-full"
+                          style={{ width: `${uploadProgress}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm text-gray-600">{uploadProgress}%</span>
+                    </div>
+                  )}
                 </div>
-                {formErrors.images && <p className="mt-2 text-sm text-red-600">{formErrors.images}</p>}
-              </div>
-              
-              {imagePreviewUrls.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-2">Image Previews</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+
+                {formErrors.images && (
+                  <p className="text-sm text-red-600">{formErrors.images}</p>
+                )}
+
+                {/* Image Preview */}
+                {imagePreviewUrls.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
                     {imagePreviewUrls.map((url, index) => (
                       <div key={index} className="relative group">
-                        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200">
-                          <img src={url} alt={`Preview ${index + 1}`} className="object-cover w-full h-full" />
+                        <div className="aspect-w-16 aspect-h-9">
+                          <img
+                            src={url}
+                            alt={`Preview ${index + 1}`}
+                            className="object-cover rounded-lg"
+                          />
                         </div>
                         <button
                           type="button"
                           onClick={() => removeImage(index)}
-                          className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute top-2 right-2 p-1.5 bg-red-100 rounded-full text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                          <svg className="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                           </svg>
                         </button>
                       </div>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-          
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Location Details</h2>
-            <LocationSelector 
-              value={locationData}
-              onChange={(location) => setLocationData(location)}
-            />
-          </div>
-          
-          {/* Submit button */}
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300"
-              disabled={isLoading}
-            >
-              {isLoading ? <Spinner size="sm" /> : 'Create Listing'}
-            </button>
-          </div>
-        </form>
+
+            {/* Submit Button */}
+            <div className="pt-6">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    {isEditMode ? 'Updating...' : 'Creating...'}
+                  </div>
+                ) : (
+                  isEditMode ? 'Update Listing' : 'Create Listing'
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

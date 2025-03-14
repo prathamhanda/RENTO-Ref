@@ -11,7 +11,6 @@ import GallerySection from '../components/GallerySection';
 import partnersImage from '../assets/partners.png';
 import cashbackImage from '../assets/cashback.png';
 
-// Sample data for colleges
 const colleges = [
   "Zakir Husain College Delhi",
   "Jesus and Mary College",
@@ -23,7 +22,66 @@ const colleges = [
   "Hansraj College",
   "Gargi College",
   "Daulat Ram College",
-  // Add more colleges as needed
+  "Delhi College of Arts & Commerce",
+  "Deen Dayal Upadhyaya College",
+  "Indraprastha College for Women",
+  "Janki Devi Memorial College",
+  "Kamala Nehru College",
+  "Kirori Mal College",
+  "Lakshmibai College",
+  "Maitreyi College",
+  "Miranda House",
+  "Motilal Nehru College",
+  "PGDAV College",
+  "Ramjas College",
+  "Shaheed Bhagat Singh College",
+  "Shivaji College",
+  "Sri Aurobindo College",
+  "Sri Guru Tegh Bahadur Khalsa College",
+  "Vivekananda College",
+  "Atma Ram Sanatan Dharma College",
+  "Bhaskaracharya College of Applied Sciences",
+  "Deshbandhu College",
+  "Maharaja Agrasen College",
+  "Rajdhani College",
+  "Ramanujan College",
+  "Shaheed Rajguru College of Applied Sciences for Women",
+  "Swami Shraddhanand College",
+  "Acharya Narendra Dev College",
+  "Aditi Mahavidyalaya",
+  "Aryabhatta College",
+  "College of Vocational Studies",
+  "Dyal Singh College",
+  "Institute of Home Economics",
+  "Jawaharlal Nehru Rajkiya Mahavidyalaya",
+  "Kalindi College",
+  "Keshav Mahavidyalaya",
+  "Maharishi Valmiki College of Education",
+  "Moti Lal Nehru College (Evening)",
+  "PGDAV College (Evening)",
+  "Pannalal Girdharlal Dayanand Anglo Vedic College",
+  "Ram Lal Anand College",
+  "Satyawati College",
+  "Satyawati College (Evening)",
+  "Shaheed Sukhdev College of Business Studies",
+  "Shyam Lal College",
+  "Shyam Lal College (Evening)",
+  "Sri Guru Nanak Dev Khalsa College",
+  "Swami Vivekananda College",
+  "Bhagini Nivedita College",
+  "Delhi Pharmaceutical Sciences and Research University",
+  "Dr. Bhim Rao Ambedkar College",
+  "Ghalib Institute",
+  "Guru Gobind Singh Indraprastha University",
+  "Indian Institute of Technology Delhi",
+  "Indira Gandhi Delhi Technical University for Women",
+  "Jamia Hamdard",
+  "Jamia Millia Islamia",
+  "Lady Irwin College",
+  "Maharaja Surajmal Institute",
+  "Netaji Subhas University of Technology",
+  "School of Planning and Architecture, Delhi",
+  "University of Delhi"
 ];
 
 // Sample data for areas
@@ -213,7 +271,7 @@ const Home = () => {
           <p className="text-white text-lg md:text-2xl">
             affordable & comfortable living, just steps away from campus!
           </p>
-          <div className="relative w-3/4 mx-auto mt-8">
+          <div className="relative w-1/2 mx-auto mt-8">
             <input 
               type="text"
               value={searchTerm}

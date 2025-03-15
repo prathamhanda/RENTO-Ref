@@ -105,16 +105,34 @@ const areas = {
 };
 
 const Home = () => {
-  const { getListings, listings, loading } = useListing();
-  const { getLocations } = useLocationContext();
+  const { getListings, listings, loading: listingLoading } = useListing();
+  const { getLocations, loading: locationLoading } = useLocationContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredColleges, setFilteredColleges] = useState([]);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getListings();
-    getLocations();
+    const fetchData = async () => {
+      try {
+        await Promise.all([
+          getListings().catch(err => {
+            console.error('Error fetching listings:', err);
+            return { listings: [] };
+          }),
+          getLocations().catch(err => {
+            console.error('Error fetching locations:', err);
+            return { locations: [] };
+          })
+        ]);
+      } catch (err) {
+        console.error('Error in data fetching:', err);
+        setError(err.message);
+      }
+    };
+
+    fetchData();
 
     // Scroll to top button visibility
     const handleScroll = () => {
@@ -240,21 +258,50 @@ const Home = () => {
   const featureData = [
     {
       image: "https://amity.edu/images/university.jpg",
-      title: "Verified Listings",
-      description: "All PGs are personally verified"
+      title: "1 Lakh+ Beds",
+      description: "Book the one perfect for you"
     },
     {
       image: "https://amity.edu/images/university.jpg",
-      title: "No Brokerage",
-      description: "Book directly with owners"
+      title: "35+ DU Colleges",
+      description: "Search accomodation by your college"
     },
     {
       image: "https://amity.edu/images/university.jpg",
-      title: "Near Colleges",
-      description: "Walking distance from campus"
+      title: "4.8+ Rating",
+      description: "What our students think about us"
     }
   ];
 
+  // Show loading state
+  if (listingLoading || locationLoading) {
+    return (
+      <MainLayout>
+        <div className="flex justify-center items-center min-h-screen">
+          <Spinner size="large" color="indigo" />
+        </div>
+      </MainLayout>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <div className="text-red-600 mb-4">Error: {error}</div>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-[#FE6F61] text-white px-4 py-2 rounded hover:bg-[#e3837a] transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  // Safely render listings
   return (
     <MainLayout>
       <div className="relative">
@@ -539,7 +586,7 @@ const Home = () => {
       </div>
 
       {/* Featured Listings Section */}
-      {!loading && listings.length > 0 && (
+      {!listingLoading && listings.length > 0 && (
         <div className="container mx-auto px-4 py-8">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">Featured PG Accommodations</h2>

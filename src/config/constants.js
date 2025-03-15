@@ -1,5 +1,6 @@
 // API Configuration
-export const API_URL = 'http://localhost:5000';
+export const API_URL = 'http://localhost:5000/api';
+export const API_ENDPOINT = API_URL;
 
 // Application Constants
 export const APP_NAME = 'Rooms on Rent';

@@ -194,7 +194,7 @@ export const LocationProvider = ({ children }) => {
   const fetchLocations = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/api/locations`);
+      const response = await fetch(`${API_URL}/locations`);
       const data = await response.json();
       
       if (data.success) {

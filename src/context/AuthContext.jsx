@@ -4,10 +4,9 @@ import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-hot-toast';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
+import { API_URL } from '../config/constants';
 
 const AuthContext = createContext();
-
-const API_URL = 'http://localhost:5000/api';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

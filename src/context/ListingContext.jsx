@@ -1,10 +1,9 @@
 import { createContext, useContext, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { API_URL } from '../config/constants';
 
 const ListingContext = createContext();
-
-const API_URL ='http://localhost:5000/api';
 
 export const ListingProvider = ({ children }) => {
   const [listings, setListings] = useState([]);
@@ -22,6 +21,7 @@ export const ListingProvider = ({ children }) => {
   const getListings = async (filters = {}) => {
     try {
       setLoading(true);
+      setError(null);
       
       // Build query string from filters
       const queryParams = new URLSearchParams();
@@ -33,14 +33,26 @@ export const ListingProvider = ({ children }) => {
       
       const response = await axios.get(`${API_URL}/listings?${queryParams.toString()}`);
       
-      setListings(response.data.listings);
-      setPagination(response.data.pagination);
+      if (!response.data) {
+        throw new Error('No data received from server');
+      }
+
+      const listingsData = response.data.listings || [];
+      setListings(listingsData);
+      setPagination(response.data.pagination || {
+        total: listingsData.length,
+        page: 1,
+        limit: 10,
+        pages: Math.ceil(listingsData.length / 10)
+      });
       
       return response.data;
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to fetch listings');
-      toast.error(error.response?.data?.message || 'Failed to fetch listings');
-      return { success: false, error: error.response?.data?.message || 'Failed to fetch listings' };
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch listings';
+      setError(errorMessage);
+      console.error('Listing fetch error:', error);
+      setListings([]);
+      return { success: false, error: errorMessage, listings: [] };
     } finally {
       setLoading(false);
     }

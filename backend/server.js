@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
+const authRoutes = require('./routes/authRoutes');
 
 // Load environment variables
 dotenv.config({ path: './config/config.env' });
@@ -30,7 +31,7 @@ app.use(express.json());
 
 // Enable CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: ['http://localhost:3000'],
   credentials: true
 }));
 
@@ -55,7 +56,7 @@ app.use(fileUpload({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routers
-app.use('/api/auth', auth);
+app.use('/api/auth', authRoutes);
 app.use('/api/users', users);
 app.use('/api/listings', listings);
 app.use('/api/bookings', bookings);

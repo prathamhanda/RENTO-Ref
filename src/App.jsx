@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Spinner from './components/common/Spinner';
 import PrivateRoute from './components/auth/PrivateRoute';
 import OwnerRoute from './components/auth/OwnerRoute';
 import PublicOnlyRoute from './components/auth/PublicOnlyRoute';
+import Login from './pages/Login';
+import { API_URL } from './config/constants';
 // import dotenv from 'dotenv'; 
 
 // dotenv.config();
@@ -18,7 +20,6 @@ import About from './pages/About';
 
 // Lazy-loaded pages for better performance
 const Home = lazy(() => import('./pages/Home'));
-const Login = lazy(() => import('./pages/auth/Login'));
 const Register = lazy(() => import('./pages/auth/Register'));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
@@ -87,7 +88,74 @@ const RedirectIfLoggedIn = ({ children }) => {
 };
 
 const App = () => {
+  const [serverConnected, setServerConnected] = useState(true);
   const { user, loading } = useAuth();
+
+  useEffect(() => {
+    const checkServer = async () => {
+      try {
+        console.log('Attempting to connect to:', API_URL);
+        const response = await fetch(`${API_URL}/listings`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Server response not OK:', {
+            status: response.status,
+            statusText: response.statusText,
+            errorText
+          });
+          setServerConnected(false);
+        } else {
+          const data = await response.json();
+          console.log('Server response:', data);
+          if (data.success) {
+            setServerConnected(true);
+          } else {
+            console.error('Server response indicates failure:', data);
+            setServerConnected(false);
+          }
+        }
+      } catch (err) {
+        console.error('Server connection error:', {
+          message: err.message,
+          stack: err.stack
+        });
+        setServerConnected(false);
+      }
+    };
+
+    checkServer();
+    
+    // Set up periodic health checks
+    const interval = setInterval(checkServer, 30000); // Check every 30 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!serverConnected) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">Server Connection Error</h2>
+          <p className="text-gray-600 mb-4">
+            Unable to connect to the server. Please ensure the backend server is running at {API_URL}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-[#FE6F61] text-white px-4 py-2 rounded hover:bg-[#e3837a] transition-colors"
+          >
+            Retry Connection
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

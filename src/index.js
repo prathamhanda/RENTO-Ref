@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import './styles/map.css';
 import App from './App';
+import ErrorBoundary from './components/common/ErrorBoundary';
 import { AuthProvider } from './context/AuthContext';
 import { ListingProvider } from './context/ListingContext';
 import { BookingProvider } from './context/BookingContext';
@@ -14,20 +15,22 @@ import { NotificationProvider } from './context/NotificationContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <NotificationProvider>
-        <AuthProvider>
-          <FirebaseProvider>
-            <LocationProvider>
-              <ListingProvider>
-                <BookingProvider>
-                  <App />
-                </BookingProvider>
-              </ListingProvider>
-            </LocationProvider>
-          </FirebaseProvider>
-        </AuthProvider>
-      </NotificationProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <NotificationProvider>
+          <AuthProvider>
+            <FirebaseProvider>
+              <LocationProvider>
+                <ListingProvider>
+                  <BookingProvider>
+                    <App />
+                  </BookingProvider>
+                </ListingProvider>
+              </LocationProvider>
+            </FirebaseProvider>
+          </AuthProvider>
+        </NotificationProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   </React.StrictMode>
 ); 

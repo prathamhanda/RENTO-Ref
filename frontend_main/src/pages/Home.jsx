@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useListing } from '../context/ListingContext';
+// import { useListing } from '../context/ListingContext';
 import { useLocation as useLocationContext } from '../context/LocationContext';
 import Spinner from '../components/common/Spinner';
 import MainLayout from '../layouts/MainLayout';
@@ -10,6 +10,7 @@ import FeatureCard from '../components/FeatureCard';
 import GallerySection from '../components/GallerySection';
 import partnersImage from '../assets/partners.png';
 import cashbackImage from '../assets/cashback.png';
+import { useListing } from '../context/ListingContext';
 
 const colleges = [
   "Zakir Husain College Delhi",

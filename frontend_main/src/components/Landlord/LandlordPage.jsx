@@ -125,7 +125,7 @@ export default function LandlordPage() {
 
         {/* Header */}
         <div className="w-full flex justify-between items-center text-white py-8 px-20">
-          <Link to="/" className="text-3xl font-bold">
+          <Link href="/" className="text-3xl font-bold">
             Rooms On Rent
           </Link>
           <div className="flex gap-7">
@@ -439,152 +439,6 @@ export default function LandlordPage() {
 
           <TenantCarousel />
 
-          {/* <div className="flex items-center relative group">
-            <button className="absolute z-10 bg-white text-gray-700 w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-xl">
-              ‹
-            </button>
-            <div className="flex overflow-x-scroll scroll-smooth gap-6 p-4 w-full scrollbar-hide">
-              {premiumRooms.map((room) => (
-                <div key={room.id}>
-                  <Card className="h-[220px] w-[500px] p-3 border-1 border-[#C59856] bg-white">
-                    <div className="rounded-lg p-0">
-                      <div className="flex h-full">
-                        <img
-                          alt="room"
-                          src={room.image}
-                          width="200"
-                          height="200"
-                          className="object-cover h-full w-2/5 rounded-l-md"
-                        />
-                        <div className="flex flex-col justify-between p-3 w-full pt-0">
-                          <div className="flex flex-col">
-                            <p className="flex items-center gap-2 text-[#C59856] text-xs bg-opacity-10 rounded-md px-2 py-1 self-start">
-                              <img
-                                alt="crown"
-                                src="/images/media/premium_crown.793445f4.svg"
-                                width="14"
-                                height="12"
-                              />
-                              Premium
-                            </p>
-                            <div>
-                              <Link
-                                to="/room"
-                                className="font-semibold hover:underline"
-                              >
-                                {room.name}
-                              </Link>
-                              <p className="text-[10px] text-[#979797] ml-[2px]">
-                                {room.location}
-                              </p>
-                              <div className="h-1"></div>
-                              <div className="flex gap-1 flex-wrap">
-                                {room.amenities.includes("A/C") && (
-                                  <div className="rounded-[0.3rem] flex gap-1 text-[10px] items-center justify-between p-[5px] font-semibold border-1 border-[#C59856] text-[#C59856]">
-                                    <img
-                                      alt="A/C"
-                                      src="/images/media/ac_premium.f83072a3.svg"
-                                      width="16"
-                                      height="16"
-                                      className="object-cover"
-                                    />
-                                    A/C
-                                  </div>
-                                )}
-                                {room.amenities.includes("WiFi") && (
-                                  <div className="rounded-[0.3rem] flex gap-1 text-[10px] items-center justify-between p-[5px] font-semibold border-1 border-[#C59856] text-[#C59856]">
-                                    <img
-                                      alt="WiFi"
-                                      src="/images/media/wifi_premium.b7a33161.svg"
-                                      width="16"
-                                      height="16"
-                                      className="object-cover"
-                                    />
-                                    WiFi
-                                  </div>
-                                )}
-                                {room.amenities.includes(
-                                  "Single Occupancy"
-                                ) && (
-                                  <div className="rounded-[0.3rem] flex gap-1 text-[10px] items-center justify-between p-[5px] font-semibold border-1 border-[#C59856] text-[#C59856]">
-                                    <img
-                                      alt="Single Occupancy"
-                                      src="/images/media/single_occu_premium.5b2527bc.svg"
-                                      width="16"
-                                      height="16"
-                                      className="object-cover"
-                                    />
-                                    Single Occupancy
-                                  </div>
-                                )}
-                                {room.amenities.includes(
-                                  "Triple Occupancy"
-                                ) && (
-                                  <div className="rounded-[0.3rem] flex gap-1 text-[10px] items-center justify-between p-[5px] font-semibold border-1 border-[#C59856] text-[#C59856]">
-                                    <img
-                                      alt="Triple Occupancy"
-                                      src="/images/media/multi_occu_premium.87ea45bc.svg"
-                                      width="16"
-                                      height="16"
-                                      className="object-cover"
-                                    />
-                                    Triple Occupancy
-                                  </div>
-                                )}
-                                {room.amenities.includes("Short Stay") && (
-                                  <div className="rounded-[0.3rem] flex gap-1 text-[10px] items-center justify-between p-[5px] font-semibold border-1 border-[#C59856] text-[#C59856]">
-                                    <img
-                                      alt="Short Stay"
-                                      src="/images/media/short_stay_premium.469c496c.svg"
-                                      width="16"
-                                      height="16"
-                                      className="object-cover"
-                                    />
-                                    Short Stay
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-1">
-                            <p className="font-semibold text-xs">
-                              Rs.{" "}
-                              <span className="text-lg text-[#C59856]">
-                                {room.price}/-
-                              </span>{" "}
-                              per month
-                            </p>
-                            <div className="flex gap-3 mt-auto">
-                              <Button
-                                as="a"
-                                to="/room/book"
-                                className="flex-1 text-white bg-[#C59856]"
-                                size="sm"
-                              >
-                                Book Now
-                              </Button>
-                              <Button
-                                as="a"
-                                to="/room/visit"
-                                variant="bordered"
-                                className="flex-1 font-semibold border-[#C59856] text-[#C59856]"
-                                size="sm"
-                              >
-                                Site Visit
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
-              ))}
-            </div>
-            <button className="absolute -right-4 z-10 bg-white text-gray-700 w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-xl">
-              ›
-            </button>
-          </div> */}
         </div>
       </div>
 
@@ -1018,7 +872,7 @@ Let us handle all aspects of property management, including tenant onboarding, r
       {/* Footer */}
       <div className="bg-[#FE6F61] h-[250px] flex items-center py-10 text-white">
         <Link
-          to="/"
+          href="/"
           className="flex-1 h-full flex items-center justify-center text-6xl font-bold"
         >
           ROR

@@ -125,7 +125,7 @@ export default function LandlordPage() {
 
         {/* Header */}
         <div className="w-full flex justify-between items-center text-white py-8 px-20">
-          <Link href="/" className="text-3xl font-bold">
+          <Link to="/" className="text-3xl font-bold">
             Rooms On Rent
           </Link>
           <div className="flex gap-7">
@@ -469,7 +469,7 @@ export default function LandlordPage() {
                             </p>
                             <div>
                               <Link
-                                href="/room"
+                                to="/room"
                                 className="font-semibold hover:underline"
                               >
                                 {room.name}
@@ -557,7 +557,7 @@ export default function LandlordPage() {
                             <div className="flex gap-3 mt-auto">
                               <Button
                                 as="a"
-                                href="/room/book"
+                                to="/room/book"
                                 className="flex-1 text-white bg-[#C59856]"
                                 size="sm"
                               >
@@ -565,7 +565,7 @@ export default function LandlordPage() {
                               </Button>
                               <Button
                                 as="a"
-                                href="/room/visit"
+                                to="/room/visit"
                                 variant="bordered"
                                 className="flex-1 font-semibold border-[#C59856] text-[#C59856]"
                                 size="sm"
@@ -1018,7 +1018,7 @@ Let us handle all aspects of property management, including tenant onboarding, r
       {/* Footer */}
       <div className="bg-[#FE6F61] h-[250px] flex items-center py-10 text-white">
         <Link
-          href="/"
+          to="/"
           className="flex-1 h-full flex items-center justify-center text-6xl font-bold"
         >
           ROR

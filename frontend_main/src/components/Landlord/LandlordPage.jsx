@@ -434,7 +434,7 @@ export default function LandlordPage() {
               width="32"
               height="31"
             />
-            Current / Vacanting Tenants
+            Current / Vacating Tenants
           </p>
 
           <TenantCarousel />
@@ -553,7 +553,7 @@ Introduce seasonal discounts or packages tailored for peak times, such as exam s
         <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-3">
           <p className="font-bold text-4xl">
-            Want us to <span className="text-[#fe6f61]">Maximum
+            Want us to <span className="text-[#fe6f61]">Manage
               </span> your Property ?
           </p>
         </div>

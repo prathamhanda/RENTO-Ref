@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,6 +8,112 @@ import {Button, ButtonGroup} from "@heroui/button";
 export default function HomePage() {
   const [supportOpen, setSupportOpen] = useState(false);
   const [searchFocus, setSearchFocus] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const colleges = [
+    "Zakir Husain College Delhi",
+    "Jesus and Mary College",
+    "Sri Guru Gobind Singh College of Commerce",
+    "Shri Ram College of Commerce",
+    "Sri Venkateswara College",
+    "Lady Shri Ram College for Women",
+    "Hindu College",
+    "Hansraj College",
+    "Gargi College",
+    "Daulat Ram College",
+    "Delhi College of Arts & Commerce",
+    "Deen Dayal Upadhyaya College",
+    "Indraprastha College for Women",
+    "Janki Devi Memorial College",
+    "Kamala Nehru College",
+    "Kirori Mal College",
+    "Lakshmibai College",
+    "Maitreyi College",
+    "Miranda House",
+    "Motilal Nehru College",
+    "PGDAV College",
+    "Ramjas College",
+    "Shaheed Bhagat Singh College",
+    "Shivaji College",
+    "Sri Aurobindo College",
+    "Sri Guru Tegh Bahadur Khalsa College",
+    "Vivekananda College",
+    "Atma Ram Sanatan Dharma College",
+    "Bhaskaracharya College of Applied Sciences",
+    "Deshbandhu College",
+    "Maharaja Agrasen College",
+    "Rajdhani College",
+    "Ramanujan College",
+    "Shaheed Rajguru College of Applied Sciences for Women",
+    "Swami Shraddhanand College",
+    "Acharya Narendra Dev College",
+    "Aditi Mahavidyalaya",
+    "Aryabhatta College",
+    "College of Vocational Studies",
+    "Dyal Singh College",
+    "Institute of Home Economics",
+    "Jawaharlal Nehru Rajkiya Mahavidyalaya",
+    "Kalindi College",
+    "Keshav Mahavidyalaya",
+    "Maharishi Valmiki College of Education",
+    "Moti Lal Nehru College (Evening)",
+    "PGDAV College (Evening)",
+    "Pannalal Girdharlal Dayanand Anglo Vedic College",
+    "Ram Lal Anand College",
+    "Satyawati College",
+    "Satyawati College (Evening)",
+    "Shaheed Sukhdev College of Business Studies",
+    "Shyam Lal College",
+    "Shyam Lal College (Evening)",
+    "Sri Guru Nanak Dev Khalsa College",
+    "Swami Vivekananda College",
+    "Bhagini Nivedita College",
+    "Delhi Pharmaceutical Sciences and Research University",
+    "Dr. Bhim Rao Ambedkar College",
+    "Ghalib Institute",
+    "Guru Gobind Singh Indraprastha University",
+    "Indian Institute of Technology Delhi",
+    "Indira Gandhi Delhi Technical University for Women",
+    "Jamia Hamdard",
+    "Jamia Millia Islamia",
+    "Lady Irwin College",
+    "Maharaja Surajmal Institute",
+    "Netaji Subhas University of Technology",
+    "School of Planning and Architecture, Delhi",
+    "University of Delhi"
+  ];
+
+  const filteredColleges = useMemo(() => {
+    if (!searchQuery) return [];
+    
+    const query = searchQuery.toLowerCase().trim();
+    if (query === '') return [];
+    
+    const startsWithQuery = [];
+    const containsQuery = [];
+    
+    colleges.forEach(college => {
+      const lowerCollege = college.toLowerCase();
+      if (lowerCollege.startsWith(query)) {
+        startsWithQuery.push(college);
+      } else if (lowerCollege.includes(query)) {
+        containsQuery.push(college);
+      }
+    });
+    
+    return [...startsWithQuery.sort(), ...containsQuery.sort()];
+  }, [searchQuery]);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setShowSuggestions(true);
+  };
+
+  const handleSuggestionClick = (college) => {
+    setSearchQuery(college);
+    setShowSuggestions(false);
+  };
 
   // Mock data for listings
   const regularRooms = [ 
@@ -266,20 +372,9 @@ export default function HomePage() {
         </div>
 
         {/* Search Bar */}
-        <div className="flex justify-center">
-          <form className="flex gap-2 w-1/2" style={{ marginTop: "56px" }}>
-            <div className="flex lg:w-full md:w-[85vw] flex-col">
-              {/* <div className="relative w-full">
-        
-                <input 
-                  className="h-16 rounded-full px-8 w-full outline-none" 
-                  placeholder="Search for your desired college, location or PG"
-                />
-                <button className="w-[48px] h-[48px] rounded-full p-0 m-0 absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#fe6f61]" type="button">
-                  <img alt="search" src="/images/media/Magnifer.2001df6c.svg" width="24" height="24" />
-                </button>
-              </div> */}
-
+        <div className="flex justify-center relative">
+          <form className="flex gap-2 w-1/2" style={{ marginTop: "56px" }} onSubmit={(e) => e.preventDefault()}>
+            <div className="flex lg:w-full md:w-[85vw] flex-col relative">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -294,15 +389,28 @@ export default function HomePage() {
                 >
                   <input
                     type="text"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
                     placeholder="Search for your desired college, location or PG"
                     className="w-full px-4 py-2 rounded-full focus:outline-none"
-                    onFocus={() => setSearchFocus(true)}
-                    onBlur={() => setSearchFocus(false)}
+                    onFocus={() => {
+                      setSearchFocus(true);
+                      setShowSuggestions(true);
+                    }}
+                    onBlur={() => {
+                      setSearchFocus(false);
+                      // Delay hiding suggestions to allow for clicks
+                      setTimeout(() => setShowSuggestions(false), 200);
+                    }}
                   />
                   <motion.button
                     className="p-2 rounded-full text-white"
                     style={{ backgroundColor: "#fe6f61" }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      // Handle search submission here
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -320,6 +428,31 @@ export default function HomePage() {
                     </svg>
                   </motion.button>
                 </motion.div>
+                
+                {/* Search Suggestions */}
+                {showSuggestions && filteredColleges.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute left-4 right-4 top-full mt-2 bg-white rounded-2xl shadow-lg border border-gray-200 max-h-[300px] overflow-y-auto z-50"
+                    style={{
+                      scrollbarWidth: 'thin',
+                      scrollbarColor: '#fe6f61 #f1f1f1'
+                    }}
+                  >
+                    {filteredColleges.map((college, index) => (
+                      <motion.div
+                        key={index}
+                        className="px-6 py-3 hover:bg-gray-50 cursor-pointer text-left text-sm"
+                        onClick={() => handleSuggestionClick(college)}
+                        whileHover={{ x: 5 }}
+                      >
+                        {college}
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
               </motion.div>
             </div>
           </form>

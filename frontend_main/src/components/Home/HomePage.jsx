@@ -621,7 +621,7 @@ export default function HomePage() {
                               <Button
                                 as="a"
                                 href="/room/book"
-                                className="flex-1 text-white bg-[#FE6F61]"
+                                className="flex text-white rounded-xl bg-[#FE6F61] font-semibold"
                                 size="sm"
                               >
                                 Book Now
@@ -784,7 +784,7 @@ export default function HomePage() {
                               <Button
                                 as="a"
                                 href="/room/book"
-                                className="flex-1 text-white bg-[#C59856]"
+                                className="flex text-white bg-[#C59856] font-semibold rounded-xl"
                                 size="sm"
                               >
                                 Book Now
@@ -908,7 +908,7 @@ export default function HomePage() {
                               <Button
                                 as="a"
                                 href="/room/book"
-                                className="flex-1 text-white bg-[#FE6F61]"
+                                className="flex text-white rounded-xl bg-[#FE6F61] font-semibold"
                                 size="sm"
                               >
                                 Book Now
@@ -1024,7 +1024,7 @@ export default function HomePage() {
                               <Button
                                 as="a"
                                 href="/room/book"
-                                className="flex-1 text-white bg-[#FE6F61]"
+                                className="flex text-white rounded-xl bg-[#FE6F61] font-semibold"
                                 size="sm"
                               >
                                 Book Now

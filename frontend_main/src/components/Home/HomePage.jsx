@@ -1620,6 +1620,10 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex gap-12">
+          <div className="relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#25D366] text-white text-xs px-3 py-1 rounded-full font-medium whitespace-nowrap">
+                2 Mins Reply
+              </div>
             <a
               href="https://chat.whatsapp.com/D8XEoda1w2GBAeO2gtMT0b"
               target="_blank"
@@ -1636,6 +1640,7 @@ export default function HomePage() {
                 <span className="text-lg font-bold">WhatsApp us</span>
               </div>
             </a>
+            </div>
             <a
               href="tel:+916207409628"
               target="_self"
